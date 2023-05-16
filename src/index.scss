@@ -1,0 +1,18 @@
+@import "./styles/cols.scss";
+@import "./styles/tables.scss";
+
+html,
+body {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  padding: 20px;
+  margin: 0;
+}

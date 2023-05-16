@@ -1,0 +1,18 @@
+.insert-json {
+  margin-bottom: 20px;
+
+  &__form {
+    width: 100%;
+  }
+
+  &__title {}
+
+  &__field {
+    width: 100%;
+    resize: none;
+    height: 50px;
+    max-width: 400px;
+    display: block;
+    margin: 0 auto 10px 0;
+  }
+}

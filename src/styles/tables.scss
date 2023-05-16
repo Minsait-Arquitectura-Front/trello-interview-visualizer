@@ -1,0 +1,16 @@
+.custom-table {
+  margin-top: 20px;
+  width: 100%;
+  border: 1px solid #000;
+  border-collapse: collapse;
+
+  &__td,
+  &__th {
+    border: 1px solid #000;
+    padding: 5px;
+  }
+
+  &--small {
+    max-width: 650px;
+  }
+}
