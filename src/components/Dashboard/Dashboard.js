@@ -6,7 +6,7 @@ const Dashboard = ({ data }) => {
   // Dias: 1 día, 3 días
   // Semanas: 1s -> 7d, 2s -> 14d, 4s -> 28d
   // Meses: 3m -> 90d, 6m -> 180d, 12m -> 365d
-  const lastDaysFilterOptions = [1, 3, 7, 14, 28, 90, 180, 365];
+  const lastDaysFilterOptions = [1, 3, 7, 14, 28, 60, 90, 180, 365];
 
   // States
   const [lastDaysFilterValue, setLastDaysFilterValue] = React.useState(7);
