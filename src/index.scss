@@ -6,6 +6,11 @@ body {
   width: 100%;
   height: auto;
   box-sizing: border-box;
+  background: #000;
+}
+
+body * {
+  font-family: 'Arial', sans-serif;
 }
 
 * {

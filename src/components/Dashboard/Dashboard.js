@@ -1,29 +1,32 @@
 import React from "react";
 import "./Dashboard.scss";
-import { getDaysBetweenDates } from "../../utils/dates";
 
 const Dashboard = ({ data }) => {
-  // Dias: 1 día, 3 días
-  // Semanas: 1s -> 7d, 2s -> 14d, 4s -> 28d
-  // Meses: 3m -> 90d, 6m -> 180d, 12m -> 365d
-  const lastDaysFilterOptions = [1, 3, 7, 14, 28, 60, 90, 180, 365];
+  // Calculate the start date (a month before today)
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
   // States
-  const [lastDaysFilterValue, setLastDaysFilterValue] = React.useState(7);
+  const [startDate, setStartDate] = React.useState(oneMonthAgo.toISOString().split('T')[0]);
+  const [endDate, setEndDate] = React.useState(new Date().toISOString().split('T')[0]);
   const [openedCards, setOpenedCards] = React.useState([]);
   const [filteredCards, setFilteredCards] = React.useState([]);
   const [members, setMembers] = React.useState([]);
   const [userSelected, setUserSelected] = React.useState(null);
   const [lists, setLists] = React.useState([]);
 
-  // References
-  const lastDaysFilterRef = React.useRef(null);
+  // Calculate the number of days between start and end dates
+  const getDaysDifference = (start, end) => {
+    const date1 = new Date(start);
+    const date2 = new Date(end);
+    const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  };
 
   // Aux functions
   const onSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    setLastDaysFilterValue(parseInt(lastDaysFilterRef.current.value, 10));
   };
 
   const showUserData = (member) => {
@@ -38,42 +41,33 @@ const Dashboard = ({ data }) => {
     return item ? item.name : "SIN COLUMNA";
   };
 
-  const applyFilters = React.useCallback((filteredCardsNotClosed, lastDaysFilterValue, members) => {
-    // Filtramos tarjetas por fecha
-    const currentDate = new Date();
+  const applyFilters = React.useCallback((filteredCardsNotClosed, startDate, endDate, members) => {
     const filteredCardsByDate = filteredCardsNotClosed.filter((card) => {
-      // Default: 1970
       let dateOfExpiration = card.due ? new Date(card.due) : new Date(0);
-      const days = getDaysBetweenDates(currentDate, dateOfExpiration);
-      return days <= lastDaysFilterValue;
+      return dateOfExpiration >= new Date(startDate) && dateOfExpiration <= new Date(endDate);
     });
 
-    // Asignamos tarjetas a cada usuario
     let membersWithCards = members.map((member) => ({
       memberInfo: member,
       cards: filteredCardsByDate.filter((card) => card.idMembers.includes(member.id)),
     }));
 
-    // Ordenamos por mayor número de tarjetas
     membersWithCards = membersWithCards.sort((member1, member2) => {
       return member2.cards.length - member1.cards.length;
     });
 
     setMembers(membersWithCards);
-
     setFilteredCards(filteredCardsByDate);
   }, []);
 
-  // Efectos
   React.useEffect(() => {
     if (data) {
-      // Remove closed cards
       const filteredCardsNotClosed = data.cards.filter((card) => !card.closed);
       setOpenedCards(filteredCardsNotClosed);
       setLists(data.lists);
-      applyFilters(filteredCardsNotClosed, lastDaysFilterValue, data.members);
+      applyFilters(filteredCardsNotClosed, startDate, endDate, data.members);
     }
-  }, [data, lastDaysFilterValue, applyFilters]);
+  }, [data, startDate, endDate, applyFilters]);
 
   return (
     <div className="dashboard">
@@ -81,24 +75,19 @@ const Dashboard = ({ data }) => {
       <form className="filters" onSubmit={onSubmit}>
         <div className="row">
           <div className="row__col">
-            <p>Últimos n días:</p>
-            <select defaultValue={lastDaysFilterValue} ref={lastDaysFilterRef} type="select">
-              {lastDaysFilterOptions.map((days) => (
-                <option key={days} id={days} value={days}>
-                  {days}
-                </option>
-              ))}
-            </select>
+            <p>Desde:</p>
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
           </div>
-
-          <div className="row__col">{/* PONER AQUI RESTO DE FILTROS */}</div>
+          <div className="row__col">
+            <p>Hasta:</p>
+            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+          </div>
         </div>
-
-        <input className="filters__button" type="submit" value="filtrar" />
+        <input className="filters__button" type="submit" value="FILTRAR" />
       </form>
-
-      <p>
-        Total tarjetas: {openedCards?.length} / Filtradas: {filteredCards?.length}
+      <p className="dashboard__count">
+        Total tarjetas: {openedCards?.length} / Filtradas: {filteredCards?.length} <br />
+        Mostrando ultimos {getDaysDifference(startDate, endDate)} días.
       </p>
 
       <table className="custom-table custom-table--small">

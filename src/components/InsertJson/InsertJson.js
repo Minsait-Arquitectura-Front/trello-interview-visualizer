@@ -21,7 +21,7 @@ const InsertJson = ({ onSubmit }) => {
   return (
     <div className="insert-json">
       <form className="insert-json__form" onSubmit={submitForm}>
-        <p className="insert-json__title">Introduce aquí el contenido del JSON</p>
+        <p className="insert-json__title">Introduce aquí el contenido del JSON:</p>
         <textarea className="insert-json__field" id="json" ref={jsonRef}></textarea>
         <input type="submit" value="ACEPTAR" />
       </form>

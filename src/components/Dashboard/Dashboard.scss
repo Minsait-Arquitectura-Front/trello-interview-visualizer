@@ -1,11 +1,112 @@
 .dashboard {
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   &__title {
-    margin: 0 0 10px 0;
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    color: #333;
+  }
+
+  &__count {
+    text-align: right;
   }
 }
 
 .filters {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   &__button {
-    margin-top: 10px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  &__col {
+    flex: 1;
+
+    p {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    select, input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+  }
+}
+
+.custom-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+
+  &--small {
+    td, th {
+      padding: 8px 12px;
+    }
+  }
+
+  th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #007BFF;
+    color: #fff;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+
+  a {
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #0056b3;
+    }
+  }
+
+  button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #0056b3;
+    }
   }
 }
