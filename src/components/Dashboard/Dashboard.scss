@@ -12,7 +12,8 @@
   }
 
   &__count {
-    text-align: right;
+    text-align: left;
+    margin: 25px 0 10px 0;
   }
 }
 
@@ -80,6 +81,10 @@
   th {
     background-color: #007BFF;
     color: #fff;
+  }
+
+  td {
+    background: #FFF;
   }
 
   tr:hover {

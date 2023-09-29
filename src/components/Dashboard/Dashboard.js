@@ -124,6 +124,7 @@ const Dashboard = ({ data }) => {
                 <th className="custom-table__th">Titulo</th>
                 <th className="custom-table__th">Fecha</th>
                 <th className="custom-table__th">Columna</th>
+                <th className="custom-table__th">Enlace</th>
               </tr>
             </thead>
             <tbody className="custom-table__body">
